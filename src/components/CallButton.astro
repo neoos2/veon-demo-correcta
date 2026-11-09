@@ -1,0 +1,8 @@
+---
+import { phones } from "../data/site";
+interface Props { number?: boolean; class?: string; }
+const { number = false, class: cls } = Astro.props;
+---
+<a class:list={["btn", "btn--call", cls]} href={phones.main.href}>
+  <span>Зателефонувати</span>{number && <span class="btn__num"> {phones.main.label}</span>}
+</a>

@@ -1,0 +1,20 @@
+---
+// One segment of the page axis: a vertical wave whose amplitude drops section by section.
+// viewBox height stays 1000 and is stretched by CSS; the 96-unit width keeps real pixels horizontally.
+interface Props { amp: number; halves: number; end?: boolean; class?: string; }
+const { amp, halves, end = false, class: cls } = Astro.props;
+const step = 1000 / halves;
+let d = "M48 0";
+let y = 0;
+let dir = 1;
+for (let i = 0; i < halves; i++) {
+  const c = 48 + dir * amp * 1.33;
+  d += ` C${c.toFixed(1)} ${(y + step / 3).toFixed(1)} ${c.toFixed(1)} ${(y + (2 * step) / 3).toFixed(1)} 48 ${(y + step).toFixed(1)}`;
+  y += step;
+  dir = -dir;
+}
+---
+<svg class:list={["axis", cls]} data-reveal="axis" viewBox="0 0 96 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  <path d={d} fill="none" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke" />
+</svg>
+{end && <span class="axis-end" aria-hidden="true" />}

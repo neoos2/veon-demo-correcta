@@ -1,0 +1,282 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import Section from "../components/Section.astro";
+import FutureLink from "../components/FutureLink.astro";
+import Axis from "../components/Axis.astro";
+import Seam from "../components/Seam.astro";
+import CallButton from "../components/CallButton.astro";
+import logo from "../assets/correcta-logo.svg";
+import heroPhoto from "../assets/correcta-gallery-6.jpg";
+import kinesioPhoto from "../assets/correcta-gallery-7.jpg";
+import massagePhoto from "../assets/correcta-gallery-3.jpg";
+import redcordPhoto from "../assets/redcord-detail.jpg";
+import shockPhoto from "../assets/correcta-gallery-5.jpg";
+import receptionPhoto from "../assets/correcta-gallery-1.jpg";
+import portraitPhoto from "../assets/head-physician.jpg";
+import firaUrl from "@fontsource/fira-sans-extra-condensed/files/fira-sans-extra-condensed-cyrillic-600-normal.woff2?url";
+import { nav, phones, email, instagram, address, mapUrl, SOON, zones, consultations, directions, priceGroups, courses } from "../data/site";
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const title = "Реабілітація спини та суглобів на Троєщині | Correcta";
+const description = "Консультації від 700 грн, кінезіотерапія, масаж, Redcord, лазер HIL, УХТ. Вул. Закревського, 95В, Київ. Щодня з 8:00 до 21:00. Запис за телефоном.";
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "MedicalClinic",
+  name: "Correcta",
+  description: "Центр реабілітації спини та суглобів на Троєщині",
+  medicalSpecialty: "Physiotherapy",
+  telephone: ["+380952084199", "+380962084199"],
+  email: "correctaua@gmail.com",
+  address: { "@type": "PostalAddress", streetAddress: "вул. Закревського, 95В", addressLocality: "Київ", addressCountry: "UA" },
+  areaServed: "Троєщина, Київ",
+  openingHoursSpecification: [{ "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], opens: "08:00", closes: "21:00" }],
+  sameAs: [instagram],
+};
+const railZones = zones.filter((z) => z.short);
+const photos: Record<string, ImageMetadata> = { kinesio: kinesioPhoto, massage: massagePhoto, redcord: redcordPhoto, shock: shockPhoto };
+const photos2: Record<string, ImageMetadata> = { ...photos, reception: receptionPhoto, portrait: portraitPhoto, hero: heroPhoto };
+const photoKeys = ["kinesio", "massage", "redcord", "shock", "reception", "portrait", "hero"];
+const frameKey: Record<string, string> = { hernia: "portrait", laser: "reception", rehab: "hero" };
+const photoAlt = (key: string) => directions.find((d) => d.photo === key)?.alt ?? "";
+---
+<Base lang="uk" {title} {description} rec="S-R012">
+  <Fragment slot="head">
+    <link rel="preload" href={firaUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href={`${base}favicon.png`} type="image/png" />
+    <script is:inline type="application/ld+json" data-rec="S-R013" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+
+  <header class="site-header" slot="header">
+    <div class="container site-header__in">
+      <a class="logo" href="#top" aria-label="Correcta, на початок сторінки"><img src={logo.src} width="219" height="43" alt="" /></a>
+      <span class="site-header__stem" aria-hidden="true"></span>
+      <nav class="nav" aria-label="Основна навігація" data-rec="W-R016">
+        <ul>{nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+      </nav>
+      <a class="site-header__tel" href={phones.main.href}><span class="site-header__tel-word">Запис</span> {phones.main.label}</a>
+      <details class="menu">
+        <summary><span>Меню</span></summary>
+        <nav class="menu__panel" aria-label="Меню сайту">
+          <ul>{nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+        </nav>
+      </details>
+    </div>
+  </header>
+
+  <Section id="top" class="hero" rec="W-R001,W-R002,W-R005">
+    <Axis amp={28} halves={8} />
+    <nav class="rail" aria-label="Зони тіла">
+      <ol>{railZones.map((z, i) => <li style={`--i:${i + 1}`}><a class="rail__link" href={`#zone-${z.id}`}>{z.short}</a></li>)}</ol>
+      <span class="rail__marker" aria-hidden="true"></span>
+    </nav>
+    <div class="container hero__in">
+      <div class="hero__text">
+        <h1 data-rec="S-R011,G-R003">Центр <br />реабілітації <br />спини та <br class="h1-br" />суглобів <br />на Троєщині</h1>
+        <p class="hero__lead">Перший крок: консультація від 700 грн. <a href={mapUrl} target="_blank" rel="noopener">Вул. Закревського,&nbsp;95В</a>, щодня з 8:00 до 21:00.</p>
+        <div class="hero__actions">
+          <CallButton class="hero__call" number />
+          <a class="hero__symptoms" href="#symptoms">Оберіть, де болить</a>
+        </div>
+      </div>
+      <figure class="hero__photo" data-rec="S-R014,M-R004,W-R015,W-R019">
+        <Image src={heroPhoto} widths={[420, 534]} sizes="(min-width: 75rem) 34vw, (min-width: 48rem) 40vw, 100vw" format="webp" quality={82} loading="eager" fetchpriority="high" alt="Заняття на системі Redcord: пацієнтка на кушетці, червоні підвіси тримають ноги, поруч фізичний терапевт" />
+      </figure>
+    </div>
+    <svg class="clip-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs><clipPath id="logo-wave" clipPathUnits="objectBoundingBox"><path d="M0 .12 C.16 .02 .32 .01 .5 .08 S.84 .17 1 .03 L1 1 L0 1 Z" /></clipPath></defs></svg>
+  </Section>
+
+  <Section id="symptoms" class="sec sec--surface with-axis" rec="W-R017">
+    <Axis amp={16} halves={18} />
+    <Seam amp={28} />
+    <div class="container">
+      <h2 class="sym__head">Де болить: від шиї до стопи</h2>
+      <p class="side-note">Діагноз визначає фахівець на консультації.</p>
+      <ol class="zones">
+        {zones.map((z, i) => (
+          <li style={`--i:${i}`}>
+            <details id={`zone-${z.id}`} class="zone" open={i === 0}>
+              <summary><h3>{z.name}</h3></summary>
+              <p class="zone__text">{z.text}</p>
+            </details>
+          </li>
+        ))}
+      </ol>
+      <p class="sym__also">Також звертаються через оніміння кінцівок і порушення сну.</p>
+      <div class="row-actions">
+        <a class="btn btn--ghost" href="#first-visit">З чого почати</a>
+        <FutureLink note={SOON}>Повний перелік</FutureLink>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="first-visit" class="sec sec--dark with-axis" rec="W-R006">
+    <Axis amp={10} halves={10} />
+    <Seam amp={16} />
+    <div class="container">
+      <h2 class="fv__head">З чого почати: консультація від 700 до 1000 грн</h2>
+      <ol class="bars">
+        {consultations.map((c, i) => (
+          <li class="bar" data-reveal="bar" style={`--m:${c.minutes}; --reveal-delay:${i * 80}ms`}>
+            <h3 class="bar__name">{c.name}</h3>
+            <div class="bar__slab">
+              <span class="bar__fill" aria-hidden="true"></span>
+              <p class="bar__price">{c.price}&nbsp;грн</p>
+            </div>
+            <p class="bar__dur">до {c.minutes}&nbsp;хв</p>
+          </li>
+        ))}
+      </ol>
+      <div class="fv__end">
+        <p>Не знаєте, кого обрати? Зателефонуйте й опишіть, що турбує.</p>
+        <CallButton />
+      </div>
+    </div>
+  </Section>
+
+  <Section id="directions" class="sec sec--paper with-axis" rec="W-R018">
+    <Axis amp={6} halves={10} />
+    <Seam amp={10} />
+    <div class="container">
+      <h2 class="dir__head">Сім напрямів: від кінезіотерапії до Redcord</h2>
+      <div class="dir">
+        <ol class="dir__list">
+          {directions.map((d) => (
+            <li class="dir__row" data-photo={d.photo ?? frameKey[d.key]}>
+              <h3 class="dir__name"><FutureLink note={SOON}>{d.name}</FutureLink></h3>
+              <p class="dir__text">{d.text}</p>
+              <p class="dir__price">{d.price}</p>
+              {d.photo && <div class="dir__thumb"><Image src={photos[d.photo]} widths={[360, photos[d.photo].width]} sizes="100vw" format="webp" quality={78} alt={d.alt ?? ""} /></div>}
+            </li>
+          ))}
+        </ol>
+        <div class="dir__frame" aria-hidden="true">
+          {photoKeys.map((k, i) => <Image class:list={[{ "is-active": i === 0 }]} data-key={k} src={photos2[k]} widths={[440, photos2[k].width]} sizes="(min-width: 75rem) 26vw, 100vw" format="webp" quality={78} alt="" />)}
+        </div>
+      </div>
+      <div class="row-actions">
+        <CallButton />
+      </div>
+    </div>
+  </Section>
+
+  <Section id="prices" class="sec sec--surface with-axis" rec="W-R004">
+    <Axis amp={3} halves={14} />
+    <Seam amp={6} />
+    <div class="container">
+      <div class="prices__head">
+        <div>
+          <h2>Ціни на заняття, процедури й курси</h2>
+          <p class="prices__meta">Оновлено 21.09.2026</p>
+        </div>
+        <p class="discount">Знижка 5%: діти до 14 років, пенсіонери, військові</p>
+      </div>
+      <p class="prices__legend">Дві ціни в рядку: спеціаліст / старший спеціаліст</p>
+      <div class="price-groups">
+        {priceGroups.map((g) => (
+          <details class="price-group" open={g.open}>
+            <summary><h3>{g.title}</h3></summary>
+            <ul class="price-list">
+              {g.rows.map((r) => <li><span class="pr__name">{r.name}</span><span class="pr__dur">{r.dur}</span><span class="pr__price">{r.price}&nbsp;грн</span></li>)}
+            </ul>
+          </details>
+        ))}
+        <details class="price-group">
+          <summary><h3>Курси</h3></summary>
+          {courses.map((c) => (
+            <div class="course">
+              <p class="course__name">{c.title}</p>
+              <ul class="price-list">
+                {c.rows.map((r) => <li><span class="pr__name">{r.name}</span><span class="pr__dur">{r.dur}</span><span class="pr__price">{r.price}&nbsp;грн</span></li>)}
+              </ul>
+            </div>
+          ))}
+        </details>
+      </div>
+      <div class="row-actions">
+        <CallButton />
+        <FutureLink note={SOON}>Повний прайс</FutureLink>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="center" class="sec sec--paper with-axis">
+    <Axis amp={2} halves={8} />
+    <Seam amp={3} />
+    <div class="container center">
+      <figure class="center__portrait">
+        <Image src={portraitPhoto} widths={[480, 700]} sizes="(min-width: 75rem) 36vw, (min-width: 40rem) 55vw, 100vw" format="webp" quality={80} alt="Юрій Дано, головний фізичний терапевт, у центрі Correcta на тлі підвісів Redcord" />
+      </figure>
+      <div class="center__text">
+        <h2>Хто приймає в центрі</h2>
+        <h3 class="center__name">Юрій Дано</h3>
+        <p class="center__role">Головний фізичний терапевт</p>
+        <p class="center__spec">Консультації ведуть також невролог-вертебролог і фізичні терапевти.</p>
+        <div class="row-actions">
+          <FutureLink note={SOON}>Про клініку</FutureLink>
+        </div>
+      </div>
+      <figure class="center__room">
+        <Image src={receptionPhoto} widths={[360, 534]} sizes="(min-width: 75rem) 22vw, 60vw" format="webp" quality={78} alt="Стійка реєстрації центру Correcta з логотипом, позаду вікно і рослини" />
+      </figure>
+    </div>
+  </Section>
+
+  <Section id="contact" class="sec sec--brand with-axis" rec="W-R003,W-R008,W-R013">
+    <Axis amp={0} halves={2} end />
+    <Seam amp={2} />
+    <div class="container">
+      <h2 class="contact__head">Запис телефоном, щодня з 8:00 до 21:00</h2>
+      <a class="contact__big" href={phones.main.href}>{phones.main.label}</a>
+      <div class="contact__grid">
+        <div class="contact__list">
+          <p><a class="contact__second" href={phones.second.href}>{phones.second.label}</a></p>
+          <p>{`м. Київ, `}<a href={mapUrl} target="_blank" rel="noopener">{address}</a></p>
+          <p><a href={email.href}>{email.label}</a></p>
+          <p><a href={instagram} target="_blank" rel="noopener" data-rec="S-R003,M-R005">Instagram</a></p>
+        </div>
+        <form class="lead-form" aria-label="Онлайн-заявка" autocomplete="on">
+          <div class="field">
+            <label for="f-name">Ім’я</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="f-phone">Телефон</label>
+            <input id="f-phone" name="tel" type="tel" autocomplete="tel" inputmode="tel" />
+          </div>
+          <div class="lead-form__row">
+            <button class="btn" type="submit" disabled aria-describedby="f-hint">Надіслати заявку</button>
+            <CallButton />
+          </div>
+          <p id="f-hint" class="lead-form__hint">Онлайн-заявка з’явиться у повній версії сайту</p>
+        </form>
+      </div>
+    </div>
+  </Section>
+
+  <footer class="site-footer" slot="footer">
+    <div class="container site-footer__in">
+      <a class="logo" href="#top" aria-label="Correcta, на початок сторінки"><img src={logo.src} width="180" height="36" alt="" loading="lazy" /></a>
+      <nav class="site-footer__nav" aria-label="Футер">
+        <ul>
+          {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+          <li><a href={instagram} target="_blank" rel="noopener" data-rec="S-R003,M-R005">Instagram</a></li>
+          <li><a href={phones.main.href}>{phones.main.label}</a></li>
+        </ul>
+      </nav>
+      <p class="site-footer__legal">
+        <FutureLink note={SOON}>Консультація реабілітолога</FutureLink>
+        <FutureLink note={SOON}>Консультація мануального терапевта</FutureLink>
+        <FutureLink note={SOON}>Політика конфіденційності</FutureLink>
+      </p>
+      <p class="site-footer__copy">Всі права захищені © 2026 Correcta</p>
+    </div>
+  </footer>
+
+  <div class="dock" data-dock>
+    <a class="btn btn--call" href={phones.main.href}>Зателефонувати</a>
+    <a class="btn btn--ghost" href={mapUrl} target="_blank" rel="noopener">Маршрут</a>
+  </div>
+
+  <script src="../scripts/site.ts"></script>
+</Base>

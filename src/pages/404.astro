@@ -1,0 +1,13 @@
+---
+import Base from "../layouts/Base.astro";
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+---
+<Base lang="uk" title="Сторінку не знайдено | Correcta" description="Такої сторінки немає. Поверніться на головну центру реабілітації Correcta.">
+  <section class="sec sec--brand">
+    <div class="container">
+      <h1>Такої сторінки немає</h1>
+      <p class="hero__lead">Поверніться на головну або зателефонуйте: <a href="tel:+380952084199">095 208 41 99</a>.</p>
+      <p class="row-actions"><a class="btn btn--ghost" href={base}>На головну</a></p>
+    </div>
+  </section>
+</Base>

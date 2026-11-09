@@ -1,0 +1,12 @@
+---
+// Mobile replacement for the axis: the wave on the seam between two sections, flattening towards #contact.
+interface Props { amp: number; }
+const { amp } = Astro.props;
+const up = 32 - amp * 1.33;
+const down = 32 + amp * 1.33;
+const line = `M0 32 C65 ${up} 130 ${up} 195 32 S325 ${down} 390 32`;
+---
+<svg class="seam" viewBox="0 0 390 64" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  <path class="seam__fill" d={`${line} V0 H0 Z`} />
+  <path class="seam__line" d={line} fill="none" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke" data-reveal="seam" />
+</svg>
